@@ -19,6 +19,12 @@ val kafkaTopics = Map("transaction" -> 1) //number of threads for a topic consum
 // Create a DStream
 val kafkaStream = KafkaUtils.createStream(streamingContext, zkHost, kafkaGroupId, kafkaTopics)
 
+// To prevent data loss in a case of failure:
+// val brokerHostList = "localhost:9092"
+// val settings = Map("metadata.broker.list" -> brokerHostList, "group.id" -> kafkaGroupId)
+// val kafkaTopicSet = kafkaTopics.keySet
+// val kafkaStream = KafkaUtils.createDirectStream(streamingContext, settings, kafkaTopicSet)
+
 // kafkaStream.print // output stream to console
 
 val cassandraKeyspace = "finances"

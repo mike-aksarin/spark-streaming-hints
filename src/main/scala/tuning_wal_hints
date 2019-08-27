@@ -1,0 +1,19 @@
+# We can use Write Ahead Log (WAL) to recover streaming data after failures:
+
+spark.streaming.receiver.writeAheadLog.enable = true
+
+# The WAL data is stored in the same place as checkpoints
+
+# If WAL / checkpoint source doesn't support flushing, then we need to enable following props
+# to close WAL files after writing:
+
+spark.streaming.receiver.writeAheadLog.closeFileAfterWrite = true
+
+spark.streaming.driver.writeAheadLog.closeFileAfterWrite = true
+
+# We usually need also this to prevent replicated serialization:
+dStream.persist(StorageLevel.MEMORY_AND_DISK_SER)
+
+# If we are using Kafka, then we have a better resilience mechanism than spark WAL.
+# Just use KafkaUtils.createDirectStream to create receiverless stream:
+

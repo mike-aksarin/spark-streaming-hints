@@ -54,7 +54,7 @@ financesDS.select(
     max($"Amount").as("MaxTransaction").as[Double] // untyped aggregation with further cast
   )
 
-// another way for aggregation instead of `agg` method. Uses a black box lambda which is bad for an optimizer:y
+// another way for aggregation instead of `agg` method. Uses a black box lambda which is bad for an optimizer:
 // .mapGroups((key, txs) => (key, txs.map(_.amount).sum)) // no shuffle here
 // .flatMapGroups // also no shuffle here
 // .reduceGroups // also no shuffle here

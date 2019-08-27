@@ -50,6 +50,13 @@ def createContext(): StreamingContext = {
   ssc.checkpoint(checkpointDir)
 
   val kafkaStream = KafkaUtils.createStream(ssc, zkHost, kafkaGroupId, kafkaTopics)
+
+  // To prevent data loss in a case of failure:
+  // val brokerHostList = "localhost:9092"
+  // val settings = Map("metadata.broker.list" -> brokerHostList, "group.id" -> kafkaGroupId)
+  // val kafkaTopicSet = kafkaTopics.keySet
+  // val kafkaStream = KafkaUtils.createDirectStream(streamingContext, settings, kafkaTopicSet)
+
   kafkaStream
     // Checkpoint interval could be configured like this:
     // (You can start with frequencyInterval = 5-10 times of sliding interval)

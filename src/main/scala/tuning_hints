@@ -1,0 +1,30 @@
+# Batching Interval should be bigger than time to process the batch
+# To verify this we can review a Total Delay metric in logs or in a Streaming UI at localhost:4040/streaming/
+
+# When we cannot process stream in time:
+# partitioning
+# spark.locality.wait
+
+# Stream Rate Limiting:
+# spark.streaming.receiver.maxRate
+# spark.streaming.kafka.maxRatePerPartition
+# or spark.streaming.backpressure.enabled - to automatically tune rate
+
+# Garbage Collection
+# --XX:+UseConcMarkSweepGC - if GC pauses are too big
+
+# Accumulators and Broadcasts to improve performance. But they are not recoverable by checkpoints
+
+// Broadcast smaller DF for joins:
+val df = largeDF.join(broadcast(smallerDF), "key") // local joins instead of shuffling
+// We need BroadcastHashJoin for a join strategy
+
+// To see actual join strategy:
+
+df.explain
+df.queryExecution.executedPlan
+
+// Enable *Tungsten Encoding*
+
+//You may want to reduce number of paritions for simple tasks, as by default it's 200
+spark.sql.shuffle.partitions
