@@ -64,6 +64,7 @@ def createContext(): StreamingContext = {
     .map { tx => (tx.accountNumber -> tx)} // add a key to access PairDStream methods
     .mapValues(Seq(_))
     // `reduceByKeyAndWindow` with `invReduceFunc` parameter boosts the performance in comparison with ordinary `window` call
+    // there is also `StateSpec.function` helper for state
     .reduceByKeyAndWindow(
       reduceFunc = (txs: Seq[SimpleTransaction], other: Seq[SimpleTransaction]) => txs ++ other,
       invReduceFunc = (txs: Seq[SimpleTransaction], old: Seq[SimpleTransaction]) => txs diff old,

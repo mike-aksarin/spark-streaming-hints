@@ -81,3 +81,13 @@ employeesDF.select($"*", when($"company" === "FamilyCo", "Premium").when($"compa
 // convert string to date
 to_date(unix_timestamp($"SomeDateColumn", "MM/dd/yyyy").cast("timestamp")).as("SomeDateColumn")
 //.selectExpr("to_date(CAST(unix_timestamp(SomeDateColumn, 'MM/dd/yyyy') as TIMESTAMP)) AS SomeDateColumn")
+
+
+
+// Save to Cassandra
+import org.apache.spark.sql.cassandra._
+employeesDF
+  .write
+  .mode(SaveMode.Overwrite)
+  .cassandraFormat("account_aggregates", "finances")
+  .save

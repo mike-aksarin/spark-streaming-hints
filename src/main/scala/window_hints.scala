@@ -3,11 +3,11 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions._
 
-val spark = SparkSession.builder
-                        .master("local")
-                        .appName("My Window App")
-                        .config("spark.driver.memory", "2g")
-                        .getOrCreate()
+val spark: SparkSession = SparkSession.builder
+  .master("local")
+  .appName("My Window App")
+  .config("spark.driver.memory", "2g")
+  .getOrCreate()
 
 import spark.implicits._
 

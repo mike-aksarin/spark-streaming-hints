@@ -4,7 +4,13 @@ import org.apache.spark.sql.functions._
 
 // To have Structured Streaming instead of batches:
 
-val spark: SparkSession = ???
+val spark = SparkSession.builder
+  .master("local[3]")
+  .appName("Fraud Detector")
+  .config("spark.driver.memory", "2g")
+  .config("spark.cassandra.connection.host", "localhost")
+  .enableHiveSupport
+  .getOrCreate()
 
 import spark.implicits._
 
